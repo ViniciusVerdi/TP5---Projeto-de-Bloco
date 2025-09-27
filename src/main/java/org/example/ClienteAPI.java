@@ -51,8 +51,8 @@ public class ClienteAPI {
 
     public static String entrarDadosVendedor(){
         Scanner scanner = new Scanner(System.in);
-        System.out.print("ID: ");
-        int id = Integer.parseInt(scanner.nextLine());
+//        System.out.print("ID: ");
+//        int id = Integer.parseInt(scanner.nextLine());
         System.out.print("Nome: ");
         String nome = scanner.nextLine();
         System.out.print("CPF/CNPJ: ");
@@ -61,8 +61,8 @@ public class ClienteAPI {
         String email = scanner.nextLine();
         System.out.print("Telefone: ");
         String tel = scanner.nextLine();
-        String vendedorJSON = String.format("{\"id\":%d,\"nome\":\"%s\",\"cpf_cnpj\":\"%s\",\"email\":\"%s\",\"telefone\":\"%s\"}",
-                id, nome, cpf, email, tel);
+        String vendedorJSON = String.format("{\"nome\":\"%s\",\"cpf_cnpj\":\"%s\",\"email\":\"%s\",\"telefone\":\"%s\"}",
+                 nome, cpf, email, tel);
         return vendedorJSON;
     }
 

@@ -1,11 +1,7 @@
 package org.example;
-
 import io.javalin.Javalin;
 import io.javalin.http.Context;
-
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,7 +16,6 @@ public class VendedorController {
         app.delete("/vendedores/{id}", VendedorController::removerVendedor);
     }
 
-
     public static void listarVendedores(Context ctx) {
         List<Vendedor> vendedores = carregarTodos();
         ctx.json(vendedores);
@@ -32,19 +27,20 @@ public class VendedorController {
         else ctx.status(404);
     }
 
-
     public static void adicionarVendedor(Context contexto) {
-        Vendedor novo = contexto.bodyAsClass(Vendedor.class);
         List<Vendedor> vendedores = carregarTodos();
+        int id = idAtual(vendedores);
+        Vendedor novo = contexto.bodyAsClass(Vendedor.class);
+        novo.setId(id);
         vendedores.add(novo);
         salvarTodos(vendedores);
         contexto.status(201).json(novo);
     }
 
-
     public static void atualizarVendedor(Context contexto) {
         int id = Integer.parseInt(contexto.pathParam("id"));
         Vendedor atualizado = contexto.bodyAsClass(Vendedor.class);
+        atualizado.setId(id);
         List<Vendedor> vendedores = carregarTodos();
         boolean encontrado = false;
         for (int i = 0; i < vendedores.size(); i++) {
@@ -57,9 +53,10 @@ public class VendedorController {
         if (encontrado) {
             salvarTodos(vendedores);
             contexto.status(200).json(atualizado);
-        } else contexto.status(404);
+        } else{
+            contexto.status(404);
+        }
     }
-
 
     public static void removerVendedor(Context contexto) {
         int id = Integer.parseInt(contexto.pathParam("id"));
@@ -70,7 +67,6 @@ public class VendedorController {
             contexto.status(204);
         } else contexto.status(404);
     }
-
 
     private static List<Vendedor> carregarTodos() {
         List<Vendedor> vendedores = new ArrayList<>();
@@ -89,7 +85,6 @@ public class VendedorController {
         return vendedores;
     }
 
-
     private static void salvarTodos(List<Vendedor> vendedores) {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(ARQUIVO))) {
             bw.write("id,nome,cpf_cnpj,email,telefone");
@@ -101,6 +96,10 @@ public class VendedorController {
         } catch (IOException e) {
             throw new RuntimeException("Erro ao gravar arquivo");
         }
+    }
+
+    public static int idAtual(List<Vendedor> vendedores){
+        return vendedores.size() + 1;
     }
 }
 

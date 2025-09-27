@@ -16,6 +16,12 @@ public class Vendedor {
         this.email = email;
         this.telefone = telefone;
     }
+    public Vendedor(String nome, String cpf_cnpj, String email, String telefone) {
+        this.nome = nome;
+        this.cpf_cnpj = cpf_cnpj;
+        this.email = email;
+        this.telefone = telefone;
+    }
     public int getId() {
         return id;
     }
