@@ -29,6 +29,7 @@ public class Vendedor {
     public void setId(int id) {
         this.id = id;
     }
+
     public String getNome() {
         return nome;
     }

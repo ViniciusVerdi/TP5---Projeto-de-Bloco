@@ -20,11 +20,13 @@ public class VendedorController {
         List<Vendedor> vendedores = carregarTodos();
         ctx.json(vendedores);
     }
-    public static void buscarVendedor(Context ctx) {
-        int id = Integer.parseInt(ctx.pathParam("id"));
+    public static void buscarVendedor(Context contexto) {
+        int id = Integer.parseInt(contexto.pathParam("id"));
         Vendedor v = carregarTodos().stream().filter(x -> x.getId() == id).findFirst().orElse(null);
-        if (v != null) ctx.json(v);
-        else ctx.status(404);
+        if (v != null) {
+            contexto.json(v);
+        }
+        else contexto.status(404);
     }
 
     public static void adicionarVendedor(Context contexto) {

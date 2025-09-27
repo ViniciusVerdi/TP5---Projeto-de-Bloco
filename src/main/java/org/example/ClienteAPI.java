@@ -15,6 +15,7 @@ public class ClienteAPI {
             System.out.println("2 - Adicionar vendedor");
             System.out.println("3 - Atualizar vendedor");
             System.out.println("4 - Remover vendedor");
+            System.out.println("5 - Buscar vendedor");
             System.out.println("0 - Sair");
             System.out.print("Digite a opção desejada: ");
             int opcao = scanner.nextInt();
@@ -34,6 +35,9 @@ public class ClienteAPI {
                 case 4:
                     remover();
                     break;
+                case 5:
+                    buscarVendedor();
+                    break;
                 default:
                     System.out.println("A opção " + opcao + " não é válida! Tente novamente.");
             }
@@ -48,11 +52,28 @@ public class ClienteAPI {
             while ((linha = br.readLine()) != null) System.out.println(linha);
         }
     }
+    private static void buscarVendedor() throws Exception {
+        StringBuilder resposta = new StringBuilder();
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Digite o ID do vendedor: ");
+        String id = scanner.nextLine();
+        HttpURLConnection conn = (HttpURLConnection) new URL(BASE_URL+"/"+id).openConnection();
+        conn.setRequestMethod("GET");
+
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()))) {
+            String linha;
+            while ((linha = br.readLine()) != null) {
+                resposta.append(linha);
+            }
+            System.out.println(resposta);
+        }
+        catch (Exception e) {
+            System.out.println("O vendedor não existe!");
+        }
+    }
 
     public static String entrarDadosVendedor(){
         Scanner scanner = new Scanner(System.in);
-//        System.out.print("ID: ");
-//        int id = Integer.parseInt(scanner.nextLine());
         System.out.print("Nome: ");
         String nome = scanner.nextLine();
         System.out.print("CPF/CNPJ: ");
